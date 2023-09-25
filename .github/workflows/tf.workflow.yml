@@ -1,0 +1,44 @@
+name: Terraform Kubernetes Workflow
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  tf_code_check:
+    name: Code Validation and Build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2.5.0
+
+    - name: Build image
+      run: |
+        docker build -f ./Dockerfile -t hello-world/v2 .
+        echo -n "verifying images:"
+        docker images
+
+    - uses: hashicorp/setup-terraform@v2
+    - name: Terraform init validate and plan
+      run: |
+        echo "** Running Terraform Init**"
+        terraform -chdir=terraform/ init
+        
+        echo "** Running Terraform Validate**"
+        terraform -chdir=terraform/ validate
+        
+        echo "** Running Terraform Plan**"
+        terraform -chdir=terraform/ plan
+
