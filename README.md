@@ -39,5 +39,12 @@ Create pipeline for code verification only
 ### Comments
 
 * Terraform could have been used to install monitoring. It was done via script just to diversify automation
-
 * The application uses nginx as a base image
+
+### Improvements
+
+* Gitflow with triggers
+* Inclusion of configmap with index content
+* Ingress configs
+* Load balance and load test
+* Environment variables
