@@ -14,7 +14,7 @@ resource "kubernetes_deployment" "example" {
   }
 
   spec {
-    replicas = 20
+    replicas = 2
 
     selector {
       match_labels = {
@@ -32,7 +32,7 @@ resource "kubernetes_deployment" "example" {
       spec {
 
         container {
-          image = "hello-world/v2"
+          image = "hello-world/v1"
           name  = "example"
           image_pull_policy = "Never"
 
